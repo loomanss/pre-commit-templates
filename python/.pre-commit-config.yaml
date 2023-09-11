@@ -33,3 +33,16 @@ repos:
     hooks:
     - id: flake8
       files: \.(py)$
+-   repo: local
+    hooks:
+     - id: TODO
+       language: system
+       name: TODO detection
+       entry: bash -c "for ITEM in $(grep $@ -rl -e '# TODO');do  echo 'WARNING - TODO tags found! in '$ITEM; done || true"
+       files: \.(py)$
+       verbose: true
+     - id: NO_COMMIT
+       language: system
+       name: no-commit detection
+       exclude: '.pre-commit-config.yaml'
+       entry: bash -c "for ITEM in $(grep $@ -rl -e '!nocommit');do  echo 'WARNING - !nocommit tags found! in '$ITEM && exit 1; done"
